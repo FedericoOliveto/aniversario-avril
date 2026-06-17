@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Un año juntos 🌷</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --noche: #1b120f;
+    --noche-2: #2a1810;
+    --crema: #fff7ee;
+    --durazno: #ffb88c;
+    --coral: #ff7e5f;
+    --rosa: #ff6f9c;
+    --dorado: #f6d365;
+    --dorado-suave: #f9e7c0;
+    --linea: rgba(255,247,238,0.18);
+    --ease: cubic-bezier(.22,.7,.2,1);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html{
+    width:100%;
+    height:100%;
+  }
+
+  body{
+    width:100%;
+    height:100vh;
+    height:100dvh;
+    min-height:100%;
+    overflow:hidden;
+    background:var(--noche);
+    font-family:'Outfit',sans-serif;
+    color:var(--crema);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  #app{
+    position:relative;
+    width:100%;
+    height:100vh;
+    height:100dvh;
+    min-height:100%;
+    overflow:hidden;
+  }
+
+  /* ---------- Sol ambiental de fondo (elemento de firma) ---------- */
+  #sol-wrap{
+    position:fixed;
+    top:0; right:0; bottom:0; left:0;
+    z-index:0;
+    pointer-events:none;
+    overflow:hidden;
+  }
+  #cielo{
+    position:absolute;
+    top:0; right:0; bottom:0; left:0;
+    background: linear-gradient(180deg, #1b120f 0%, #2a1810 45%, #3a1f15 100%);
+    transition: background 1.4s var(--ease);
+  }
+  #sol{
+    position:absolute;
+    left:50%;
+    width:120vmax;
+    height:120vmax;
+    border-radius:50%;
+    transform:translate(-50%, 60%);
+    background: radial-gradient(circle at 50% 0%, rgba(255,184,140,0.55), rgba(255,126,95,0.28) 35%, rgba(27,18,15,0) 70%);
+    bottom:-80%;
+    transition: bottom 2.2s var(--ease), opacity 1.4s var(--ease);
+    filter: blur(2px);
+  }
+
+  /* ---------- Pantallas ---------- */
+  .screen{
+    position:absolute;
+    top:0; right:0; bottom:0; left:0;
+    z-index:2;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    opacity:0;
+    pointer-events:none;
+    transition: opacity 1.1s var(--ease);
+  }
+  .screen.activa{
+    opacity:1;
+    pointer-events:auto;
+  }
+
+  /* ---------- Pantalla 1: portada ---------- */
+  #portada{
+    flex-direction:column;
+    text-align:center;
+  }
+  #portada-foto{
+    position:absolute;
+    top:0; right:0; bottom:0; left:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    filter:blur(14px) saturate(108%) brightness(0.62);
+    transform:scale(1.08);
+  }
+  #portada-velo{
+    position:absolute;
+    top:0; right:0; bottom:0; left:0;
+    background:
+      radial-gradient(ellipse at 50% 100%, rgba(255,126,95,0.35), transparent 60%),
+      linear-gradient(180deg, rgba(27,18,15,0.55) 0%, rgba(27,18,15,0.25) 45%, rgba(27,18,15,0.75) 100%);
+  }
+  .portada-contenido{
+    position:relative;
+    z-index:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:clamp(28px, 6vh, 48px);
+    padding:24px;
+  }
+  .eyebrow{
+    font-family:'Outfit',sans-serif;
+    font-size:clamp(11px,1.4vw,13px);
+    letter-spacing:0.28em;
+    text-transform:uppercase;
+    color:var(--dorado-suave);
+    opacity:0.85;
+  }
+  #boton-entrar{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:clamp(20px, 3.4vw, 32px);
+    color:var(--noche);
+    background:linear-gradient(135deg, var(--dorado-suave), var(--durazno) 55%, var(--rosa));
+    border:none;
+    padding:clamp(18px,2.6vh,26px) clamp(36px,5vw,64px);
+    border-radius:100px;
+    cursor:pointer;
+    box-shadow: 0 18px 50px -10px rgba(255,110,90,0.55), 0 0 0 1px rgba(255,255,255,0.25) inset;
+    transition: transform .45s var(--ease), box-shadow .45s var(--ease);
+    letter-spacing:0.01em;
+  }
+  #boton-entrar:hover{
+    transform: translateY(-3px) scale(1.015);
+    box-shadow: 0 22px 60px -8px rgba(255,110,90,0.7), 0 0 0 1px rgba(255,255,255,0.35) inset;
+  }
+  #boton-entrar:active{
+    transform: translateY(0) scale(0.985);
+  }
+  .portada-sub{
+    font-family:'Outfit',sans-serif;
+    font-size:clamp(12px,1.6vw,15px);
+    color:var(--crema);
+    opacity:0.55;
+    letter-spacing:0.02em;
+  }
+
+  /* ---------- Pantalla 2: mensaje grande ---------- */
+  #mensaje-inicial{
+    padding:0 6vw;
+  }
+  .mensaje-grande{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-style:italic;
+    font-size:clamp(30px, 6.2vw, 84px);
+    line-height:1.12;
+    text-align:center;
+    background:linear-gradient(120deg, var(--crema) 10%, var(--dorado) 50%, var(--durazno) 80%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    letter-spacing:-0.01em;
+    opacity:0;
+    transform: translateY(18px) scale(0.97);
+    transition: opacity 1.3s var(--ease) .15s, transform 1.3s var(--ease) .15s;
+  }
+  #mensaje-inicial.activa .mensaje-grande{
+    opacity:1;
+    transform: translateY(0) scale(1);
+  }
+
+  /* ---------- Pantalla 3: galeria ---------- */
+  #galeria{
+    flex-direction:column;
+    padding: clamp(16px,4vh,40px) 0;
+  }
+  .galeria-marco{
+    position:relative;
+    width:min(94vw, 560px);
+    height:min(72vh, 720px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .slide{
+    position:absolute;
+    top:0; right:0; bottom:0; left:0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    opacity:0;
+    transform: scale(0.96) translateY(6px);
+    transition: opacity .65s var(--ease), transform .65s var(--ease);
+    pointer-events:none;
+  }
+  .slide.activa{
+    opacity:1;
+    transform: scale(1) translateY(0);
+    pointer-events:auto;
+    z-index:2;
+  }
+  .slide-foto{
+    position:relative;
+    width:100%;
+    height:100%;
+    border-radius:22px;
+    overflow:hidden;
+    box-shadow: 0 30px 70px -20px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,247,238,0.08);
+    background:#000;
+  }
+  .slide-foto img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .slide-foto::after{
+    content:'';
+    position:absolute;
+    top:0; right:0; bottom:0; left:0;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 60%, rgba(0,0,0,0.45) 100%);
+    pointer-events:none;
+  }
+  .slide-texto{
+    width:100%;
+    height:100%;
+    border-radius:22px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:clamp(24px,5vw,56px);
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(255,184,140,0.28), transparent 55%),
+      radial-gradient(ellipse at 80% 85%, rgba(255,111,156,0.22), transparent 55%),
+      linear-gradient(160deg, var(--noche-2), #1b120f);
+    box-shadow: 0 30px 70px -20px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,247,238,0.1) inset;
+  }
+  .slide-texto p{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:clamp(22px, 4vw, 38px);
+    line-height:1.32;
+    background:linear-gradient(120deg, var(--crema), var(--dorado-suave) 50%, var(--durazno));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+
+  .galeria-controles{
+    display:flex;
+    align-items:center;
+    gap:clamp(18px,3vw,32px);
+    margin-top:clamp(18px,3vh,28px);
+  }
+  .flecha{
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    border:1px solid var(--linea);
+    background:rgba(255,247,238,0.06);
+    color:var(--crema);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    transition: background .3s var(--ease), transform .25s var(--ease), opacity .3s var(--ease), border-color .3s var(--ease);
+  }
+  .flecha:hover{
+    background:rgba(255,247,238,0.14);
+    border-color:rgba(255,247,238,0.35);
+  }
+  .flecha:active{ transform: scale(0.92); }
+  .flecha svg{ width:18px; height:18px; }
+  .flecha[disabled]{
+    opacity:0.25;
+    cursor:default;
+    pointer-events:none;
+  }
+  .contador{
+    font-family:'Outfit',sans-serif;
+    font-size:13px;
+    letter-spacing:0.08em;
+    color:var(--crema);
+    opacity:0.55;
+    min-width:64px;
+    text-align:center;
+  }
+
+  .puntos{
+    display:flex;
+    gap:6px;
+    margin-top:clamp(12px,2vh,18px);
+    flex-wrap:wrap;
+    justify-content:center;
+    max-width:90vw;
+  }
+  .punto{
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    background:rgba(255,247,238,0.25);
+    transition: background .3s var(--ease), transform .3s var(--ease);
+  }
+  .punto.activo{
+    background:var(--dorado);
+    transform:scale(1.5);
+  }
+  .punto.especial{
+    background:rgba(255,111,156,0.45);
+  }
+  .punto.especial.activo{
+    background:var(--rosa);
+  }
+
+  .hint-swipe{
+    position:absolute;
+    bottom:14px;
+    left:0;
+    right:0;
+    text-align:center;
+    font-size:11px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--crema);
+    opacity:0.35;
+    pointer-events:none;
+  }
+
+  @media (max-width: 560px){
+    .galeria-marco{ width:96vw; height:64vh; }
+    .flecha{ width:42px; height:42px; }
+  }
+
+  /* Respeto a usuarios con preferencia de movimiento reducido */
+  @media (prefers-reduced-motion: reduce){
+    *{ transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<div id="app">
+
+  <div id="sol-wrap">
+    <div id="cielo"></div>
+    <div id="sol"></div>
+  </div>
+
+  <!-- PANTALLA 1: PORTADA -->
+  <section class="screen activa" id="portada">
+    <img id="portada-foto" src="images/photo-09.jpg" alt="">
+    <div id="portada-velo"></div>
+    <div class="portada-contenido">
+      <span class="eyebrow">17 · junio · un año</span>
+      <button id="boton-entrar">Para "Avril Fenoglio 🌷"</button>
+      <span class="portada-sub">tocá para abrir</span>
+    </div>
+  </section>
+
+  <!-- PANTALLA 2: MENSAJE INICIAL -->
+  <section class="screen" id="mensaje-inicial">
+    <p class="mensaje-grande">Feliz aniversario<br>mi amor!!!<br>Te super amo!!! 🤍</p>
+  </section>
+
+  <!-- PANTALLA 3: GALERIA -->
+  <section class="screen" id="galeria">
+    <div class="galeria-marco" id="marco"></div>
+    <div class="galeria-controles">
+      <button class="flecha" id="flecha-izq" aria-label="Anterior">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <span class="contador" id="contador">1 / 22</span>
+      <button class="flecha" id="flecha-der" aria-label="Siguiente">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+    <div class="puntos" id="puntos"></div>
+    <span class="hint-swipe">deslizá o tocá las flechas</span>
+  </section>
+
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+try{
+(function(){
+
+  // ---------- Datos ----------
+  var TOTAL_FOTOS = 20;
+  var MENSAJE_MEDIO = "Que la vida siempre nos encuentre sonriendo, disfrutando y siendo feliz, te amo mi princesaaa!!! 🤍🤍";
+  var MENSAJE_FINAL = "Para toda la vida!! 🤍";
+  var POSICION_MEDIO = 10; // después de la foto 10
+
+  // construir secuencia de slides: tipo 'foto' o 'texto'
+  var slides = [];
+  for (var i = 1; i <= TOTAL_FOTOS; i++){
+    slides.push({tipo:'foto', src:'images/photo-' + String(i).padStart(2,'0') + '.jpg'});
+    if (i === POSICION_MEDIO){
+      slides.push({tipo:'texto', texto: MENSAJE_MEDIO, especial:true});
+    }
+  }
+  slides.push({tipo:'texto', texto: MENSAJE_FINAL, especial:true, final:true});
+
+  var current = 0;
+
+  var marco = document.getElementById('marco');
+  var puntosWrap = document.getElementById('puntos');
+  var contador = document.getElementById('contador');
+  var flechaIzq = document.getElementById('flecha-izq');
+  var flechaDer = document.getElementById('flecha-der');
+  var sol = document.getElementById('sol');
+
+  // construir DOM de slides
+  slides.forEach(function(s, idx){
+    var div = document.createElement('div');
+    div.className = 'slide';
+    div.dataset.index = idx;
+    if (s.tipo === 'foto'){
+      div.innerHTML = '<div class="slide-foto"><img src="' + s.src + '" alt="Foto de los dos"></div>';
+    } else {
+      div.innerHTML = '<div class="slide-texto"><p>' + s.texto + '</p></div>';
+    }
+    marco.appendChild(div);
+  });
+
+  // construir puntos
+  slides.forEach(function(s, idx){
+    var p = document.createElement('span');
+    p.className = 'punto' + (s.especial ? ' especial' : '');
+    puntosWrap.appendChild(p);
+  });
+
+  function actualizarSol(){
+    // el sol "sube" lentamente a medida que avanza la galería, simbolizando que el cielo cambia con la historia
+    var progreso = current / (slides.length - 1); // 0 a 1
+    var bottomPct = -80 + progreso * 95; // de -80% a 15%
+    sol.style.bottom = bottomPct + '%';
+
+    // el cielo se va calentando levemente hacia tonos más rosados al final
+    var cielo = document.getElementById('cielo');
+    if (progreso > 0.85){
+      cielo.style.background = 'linear-gradient(180deg, #2a1611 0%, #3d1a16 45%, #4a1f1a 100%)';
+    } else if (progreso > 0.45){
+      cielo.style.background = 'linear-gradient(180deg, #211512 0%, #311b13 45%, #3f2014 100%)';
+    } else {
+      cielo.style.background = 'linear-gradient(180deg, #1b120f 0%, #2a1810 45%, #3a1f15 100%)';
+    }
+  }
+
+  function render(){
+    var slideEls = marco.querySelectorAll('.slide');
+    slideEls.forEach(function(el, idx){
+      el.classList.toggle('activa', idx === current);
+    });
+    var puntoEls = puntosWrap.querySelectorAll('.punto');
+    puntoEls.forEach(function(el, idx){
+      el.classList.toggle('activo', idx === current);
+    });
+    contador.textContent = (current + 1) + ' / ' + slides.length;
+    flechaIzq.disabled = current === 0;
+    flechaDer.disabled = current === slides.length - 1;
+    actualizarSol();
+  }
+
+  function ir(idx){
+    if (idx < 0 || idx >= slides.length) return;
+    current = idx;
+    render();
+  }
+
+  flechaIzq.addEventListener('click', function(){ ir(current - 1); });
+  flechaDer.addEventListener('click', function(){ ir(current + 1); });
+
+  document.addEventListener('keydown', function(e){
+    var galeriaActiva = document.getElementById('galeria').classList.contains('activa');
+    if (!galeriaActiva) return;
+    if (e.key === 'ArrowRight') ir(current + 1);
+    if (e.key === 'ArrowLeft') ir(current - 1);
+  });
+
+  // swipe táctil
+  var touchStartX = null;
+  var galeriaSeccion = document.getElementById('galeria');
+  galeriaSeccion.addEventListener('touchstart', function(e){
+    touchStartX = e.touches[0].clientX;
+  }, {passive:true});
+  galeriaSeccion.addEventListener('touchend', function(e){
+    if (touchStartX === null) return;
+    var dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 40){
+      if (dx < 0) ir(current + 1);
+      else ir(current - 1);
+    }
+    touchStartX = null;
+  }, {passive:true});
+
+  render();
+
+  // ---------- Transiciones entre pantallas ----------
+  var portada = document.getElementById('portada');
+  var mensajeInicial = document.getElementById('mensaje-inicial');
+  var galeria = document.getElementById('galeria');
+  var boton = document.getElementById('boton-entrar');
+
+  boton.addEventListener('click', function(){
+    portada.classList.remove('activa');
+    setTimeout(function(){
+      mensajeInicial.classList.add('activa');
+    }, 200);
+
+    setTimeout(function(){
+      mensajeInicial.classList.remove('activa');
+      setTimeout(function(){
+        galeria.classList.add('activa');
+        render();
+      }, 250);
+    }, 3600);
+  });
+
+})();
+} catch(err) {
+  var divError = document.createElement('div');
+  divError.style.position = 'fixed';
+  divError.style.top = '0';
+  divError.style.left = '0';
+  divError.style.right = '0';
+  divError.style.background = '#ff3b30';
+  divError.style.color = '#fff';
+  divError.style.padding = '16px';
+  divError.style.fontFamily = 'monospace';
+  divError.style.fontSize = '13px';
+  divError.style.zIndex = '9999';
+  divError.style.whiteSpace = 'pre-wrap';
+  divError.textContent = 'ERROR JS: ' + err.message + '\n' + (err.stack || '');
+  document.body.appendChild(divError);
+}
+});
+</script>
+
+</body>
+</html>
